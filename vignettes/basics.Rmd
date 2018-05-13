@@ -3,6 +3,8 @@ title: "Draft Vignette"
 output: html_document
 ---
 
+I have used several packages 
+
 ## Basics
 
 ```{r}
@@ -45,13 +47,134 @@ Predictably England dominates but Scotland only scrapes into the top 10
 
 Much more commonly you will need to combine tables
 
+Which player has scored the most for each team
+
 ```{r}
+
+df <- players %>% 
+  #filter(player_id!="OWNGOAL") %>% 
+  left_join(player_team) %>% #7080 7107 - may be some that never played
+  left_join(player_game) %>% 
+  right_join(goals) %>% 
+  mutate(name=paste(first_name,last_name)) %>% 
+  group_by(player_id,name,team) %>% 
+  tally() %>% 
+  arrange(desc(n)) %>% 
+  group_by(team) %>% 
+  slice(1) %>% 
+  ungroup() %>% 
+  filter(!(is.na(team))) %>% ## still to explain
+  select(team,name,goals=n)
+  
+  
+
+df
+
 
 ```
 
 
 ## Derived tables
 
-Each week for my website, I do some pre-processing and ...
+The above example included quite a few joins which you may not wish to do 
+for every analysis
+For instance you might want to have the standings for a team at any point of a season
+
+```{r}
+
+## goals by team for individual match
+
+goals_by_team <- game_team %>% 
+  left_join(player_game) %>% 
+  right_join(goals) %>% 
+  group_by(team,team_game_id,game_id) %>% 
+  tally() %>% 
+  right_join(game_team) %>% 
+  mutate(GF=ifelse(is.na(n),0,n)) %>% 
+  select(-c(venue,n))
+
+goals_by_team
+
+```
+
+So we now have the goals scored by each team. The next step is to mach theis table with itself to obtain goals against but only by the game_id
+
+```{r}
+df <-goals_by_team %>% 
+  inner_join(goals_by_team,by="game_id") 
+
+head(df)
+```
+
+We have duplication and wish to remove all those where team.x= team.y. as well as tidy up column names and calculate the points accrued for each match
+
+```{r}
+
+df <- df %>% 
+  filter(team.x!=team.y) %>% 
+  select(team=team.x,team_game_id=team_game_id.x,game_id,GF=GF.x,opponents=team.y,GA=GF.y) %>% 
+  mutate(points=case_when(
+       GF >GA  ~ 3,
+       GF==GA ~ 1,
+       GF<GA ~ 0
+    
+  ))
+```
+
+For the standings at any time, we need to add the date in order and split the results into seasons
 
 
+```{r}
+
+years <- c(1992:2018)
+
+    
+library(lubridate)
+df_next <- df %>% 
+  left_join(game) %>% 
+  mutate(year=year(game_date),month=month(game_date)) %>% 
+  mutate(season= case_when(
+    month<=7 ~ paste(year-1,year,sep="/"),
+    month>7 ~ paste(year,year+1,sep="/")
+         )
+  ) %>% 
+  arrange(game_date) %>% 
+  group_by(season,team) %>% 
+  mutate(year_game_order=row_number())
+    
+  df_next
+```
+
+We can now create a standings data.frame for each round of matches based on points, Goal difference , and Goals For
+
+```{r}
+
+standings <- df_next %>% 
+  select(team,season,game_date,year_game_order,GF,GA,points) %>% 
+  group_by(team,season,year_game_order) %>% 
+  mutate(cum_points=cumsum(points),cum_GF=cumsum(GF),cum_GA=cumsum(GA),cum_GD=cum_GF-cum_GA) %>% 
+  group_by(season) %>% 
+  arrange(desc(cum_points),desc(cum_GD),desc(cum_GF),team) %>% 
+  mutate(position=row_number()) %>% 
+  select(season,team,round=year_game_order,position,GF=cum_GF,GA=cum_GA,GD=cum_GD,points=cum_points)
+
+standings
+
+```
+
+It is then a simple matter to create a function to get a table for any round of any year. e.g after 20 games in 1994/1995
+
+```{r}
+
+table_year_round <- function(x,y){
+  standings %>% 
+    filter(season==x,round==y)
+}
+
+table_year_round("1994/1995",20)
+
+```
+
+Obviously you can vary what is in the standings table
+
+and there may be many other derived tables you want to create and save
