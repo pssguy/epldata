@@ -2,3 +2,10 @@
 .Rhistory
 .RData
 .Ruserdata
+.Rbuildignore
+DESCRIPTION
+NAMESPACE
+assists.rds
+epldata.Rproj
+goals1.csv
+workingDoc
