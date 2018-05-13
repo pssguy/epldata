@@ -1,0 +1,57 @@
+---
+title: "Draft Vignette"
+output: html_document
+---
+
+## Basics
+
+```{r}
+
+library(epldata)
+
+data(package="epldata")
+## not best
+        
+
+```
+
+Let's look at one of them
+
+```{r}
+library(tidyverse) # overkill but easier add suppress warning s o block
+
+glimpse(players)
+
+```
+
+
+Let's get say percentage distribution of players born from 1990 by birth country 
+
+```{r}
+
+players %>% 
+  filter(birth_date>"1989-12-31") %>% 
+  group_by(birth_country) %>% 
+  tally() %>% 
+  mutate(pc=round(100*n/sum(n),2)) %>% 
+  arrange(desc(pc))
+
+
+```
+
+Predictably England dominates but Scotland only scrapes into the top 10
+
+## Combining tables
+
+Much more commonly you will need to combine tables
+
+```{r}
+
+```
+
+
+## Derived tables
+
+Each week for my website, I do some pre-processing and ...
+
+

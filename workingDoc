@@ -66,3 +66,7 @@ Vignette
 Website
 
 Book
+
+
+may need latex installed to build vignettes > devtools::build_vignettes()
+NULL
