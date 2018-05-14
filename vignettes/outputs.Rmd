@@ -1,0 +1,119 @@
+---
+title: "epldata - visualizations"
+#author: "Andrew Clark"
+#date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE }
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  comment = "#>"
+)
+```
+
+We have previously covered basic usage of datasets within the package including combining them to produce answers to questions and creating derived tables.
+
+We will now look at more interesting output in the form of
+
+ * Tables
+ * Charts
+ * Maps
+ 
+ This package is particularly suited to the first two options
+ 
+ You will need the standings data.frame created in the first vignette so if it is not in the environment
+ either load a saved version or re-run the code
+ 
+ ### Table
+ 
+ I tend to use the `DT` package, but there are alternatives if you have another preference
+ 
+ Let's use the match_summary_full dataframe to calculate each team's head to head record.  Over and above the current data, we need to create and sum the results
+ 
+
+
+
+
+```{r }
+
+match_summary_full %>% 
+  ungroup() %>%  #match_summary_full is grouped tbl_df
+  #filter(team=="Arsenal",opponents=="Chelsea") %>% 
+  group_by(team,opponents) %>% 
+ # select(GF,GA) %>% 
+  mutate(result = case_when(
+    GF > GA ~ "W", #win
+    GF == GA ~ "D", #draw/tie
+    GF < GA ~ "L" # loss
+  )) %>% 
+  select(team,opponents,result,GF,GA,points) %>%
+  mutate(yesno = 1) %>%
+  distinct %>%
+  spread(result, yesno, fill = 0) %>% 
+  summarize(P=n(),W=sum(W),D=sum(D),L=sum(L),ppg=round(sum(points)/P,2))%>%
+  arrange(desc(ppg)) %>% 
+   DT::datatable(class='compact stripe hover row-border order-column',rownames=FALSE,options= list(paging = TRUE, searching = TRUE,info=FALSE))
+
+
+
+```
+
+
+
+```{r}
+
+
+
+
+```
+
+
+
+```{r}
+
+
+```
+
+
+
+```{r}
+
+
+```
+
+
+
+```{r}
+
+```
+
+
+
+```{r}
+
+
+```
+
+
+
+
+```{r}
+
+
+```
+
+
+
+```{r}
+
+
+
+```
+

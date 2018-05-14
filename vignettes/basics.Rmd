@@ -1,33 +1,61 @@
 ---
-title: "Draft Vignette"
-output: html_document
+title: "epldata - the basics"
+#author: "Andrew Clark"
+#date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
-I have used several packages 
+```{r setup, include = FALSE }
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  comment = "#>"
+)
+```
+
+The epldata package is a set of nine comprehensive datasets covering players, teams, managers, goals and assists in the English Premier League from its incepton in August 1992 to the final week of the 2017/18 season. It is the intention to update the package annually, shortly after the end of each season
+
+This vignette is a brief introduction to some aspects of the package and how it might be used. Several other packages are utilized. If you are unfamiliar with their functions you will need to refer to their documentation
+ 
+
 
 ## Basics
 
 ```{r}
 
+# Download package if not on your system
+#devtools::install_github("pssguy/epldata")
 library(epldata)
 
+## This lists the available datasets with a brief description
 data(package="epldata")
-## not best
+
         
 
 ```
 
 Let's look at one of them
 
-```{r}
-library(tidyverse) # overkill but easier add suppress warning s o block
+```{r }
+
+library(tidyverse) # for data manipulation
 
 glimpse(players)
 
 ```
 
+The tables are in SQL type with a key variable for linking separate datasets. For this data, it is the unique `player_id`, which also appears in the `player_team` dataset. The data provides some basic information on each of the, approaching 5,000, players who have appeared in the League
 
-Let's get say percentage distribution of players born from 1990 by birth country 
+---
+
+### One-Table Analysis
+
+Let's use the `players` data  to obtain the percentage distribution of players born from 1990 onwards, by birth country 
 
 ```{r}
 
@@ -41,19 +69,20 @@ players %>%
 
 ```
 
-Predictably England dominates but Scotland only scrapes into the top 10
+Predictably, England dominates but Scotland only scrapes into the top 10
 
-## Combining tables
+---
 
-Much more commonly you will need to combine tables
+### Multi-table Analyses
 
-Which player has scored the most for each team
+Much more commonly you will need to combine tables to produce interesting information
+
+Which player has scored the most for each team?
 
 ```{r}
 
 df <- players %>% 
-  #filter(player_id!="OWNGOAL") %>% 
-  left_join(player_team) %>% #7080 7107 - may be some that never played
+  left_join(player_team) %>% 
   left_join(player_game) %>% 
   right_join(goals) %>% 
   mutate(name=paste(first_name,last_name)) %>% 
@@ -63,7 +92,7 @@ df <- players %>%
   group_by(team) %>% 
   slice(1) %>% 
   ungroup() %>% 
-  filter(!(is.na(team))) %>% ## still to explain
+  filter(!(is.na(team))) %>% 
   select(team,name,goals=n)
   
   
@@ -74,11 +103,11 @@ df
 ```
 
 
-## Derived tables
+### Derived tables
 
-The above example included quite a few joins which you may not wish to do 
-for every analysis
-For instance you might want to have the standings for a team at any point of a season
+The above example included quite a few joins which you will probably not wish to do 
+for every analysis 
+For instance, you might want to have available a summary of each match played
 
 ```{r}
 
@@ -87,8 +116,10 @@ For instance you might want to have the standings for a team at any point of a s
 goals_by_team <- game_team %>% 
   left_join(player_game) %>% 
   right_join(goals) %>% 
+  # sum goals for each team for each game
   group_by(team,team_game_id,game_id) %>% 
   tally() %>% 
+  # need to include games in which no goals were scored by team
   right_join(game_team) %>% 
   mutate(GF=ifelse(is.na(n),0,n)) %>% 
   select(-c(venue,n))
@@ -97,20 +128,20 @@ goals_by_team
 
 ```
 
-So we now have the goals scored by each team. The next step is to mach theis table with itself to obtain goals against but only by the game_id
+So we now have the goals scored by each team. The next step is to combine this table with itself to obtain the  opposing team and the goals against
 
 ```{r}
-df <-goals_by_team %>% 
-  inner_join(goals_by_team,by="game_id") 
+goals_by_game <-goals_by_team %>% 
+  inner_join(goals_by_team,by="game_id") # specify otherwise it will also use team_game_id
 
-head(df)
+head(goals_by_game)
 ```
 
 We have duplication and wish to remove all those where team.x= team.y. as well as tidy up column names and calculate the points accrued for each match
 
 ```{r}
 
-df <- df %>% 
+match_summary <- goals_by_game %>% 
   filter(team.x!=team.y) %>% 
   select(team=team.x,team_game_id=team_game_id.x,game_id,GF=GF.x,opponents=team.y,GA=GF.y) %>% 
   mutate(points=case_when(
@@ -119,9 +150,11 @@ df <- df %>%
        GF<GA ~ 0
     
   ))
+
+match_summary
 ```
 
-For the standings at any time, we need to add the date in order and split the results into seasons
+For the standings at any time, we need to add the game date, arrange it sequentially  and split the results into seasons. This takes a few seconds to perform
 
 
 ```{r}
@@ -129,8 +162,9 @@ For the standings at any time, we need to add the date in order and split the re
 years <- c(1992:2018)
 
     
-library(lubridate)
-df_next <- df %>% 
+library(lubridate) # for date manipulation
+
+match_summary_full <- match_summary %>% 
   left_join(game) %>% 
   mutate(year=year(game_date),month=month(game_date)) %>% 
   mutate(season= case_when(
@@ -142,8 +176,18 @@ df_next <- df %>%
   group_by(season,team) %>% 
   mutate(year_game_order=row_number())
     
-  df_next
+ match_summary_full
 ```
+
+This might be a useful derived table to save as a basis for further analysis including
+ 
+  1. Create standings
+  2. Team Head-to-Head matchups
+  3. Sequences of results and scoring
+  
+---
+
+
 
 We can now create a standings data.frame for each round of matches based on points, Goal difference , and Goals For
 
@@ -175,6 +219,11 @@ table_year_round("1994/1995",20)
 
 ```
 
-Obviously you can vary what is in the standings table
+Obviously you can vary what is in these derived tables to suit your own use
 
-and there may be many other derived tables you want to create and save
+For the weekly update of the `premiersoccerstats` web site, I create around thirty derived tables for speedy
+user interaction
+
+---
+
+You may now wish to check out further vignettes
