@@ -69,4 +69,19 @@ Book
 
 
 may need latex installed to build vignettes > devtools::build_vignettes()
-NULL
+NULL - actually looks not
+
+map? put for completeness - probably not use that often
+
+do a drill-down (maybe not heat map as have kinda done that already)
+or some sort of brush
+
+need to go back on datasets description and expand oon meaning - also
+in vignette - do i want the dtasets to pop up in IDE
+
+for vignettes need to add the suggests ie tidyverse, ? knitr/ should specific libraries of
+tidyverse be listed do I need rcolrbewer or is set2 built in
+
+add something about the Lahman data, APIs - soccer tends to be more restrictive
+
+As the vignette is not a notebook file, when run in R the output shows in vierwer(check understanding is correct)
