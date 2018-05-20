@@ -20,18 +20,17 @@ knitr::opts_chunk$set(
 
 We have previously covered basic usage of datasets within the package including combining them to produce answers to questions and creating derived tables.
 
-We will now look at more interesting output in the form of
+We will next look at more interesting output in the form of
 
  * Tables
  * Charts
  * Maps
  
- This package is particularly suited to the first two options
+ This package is particularly suited to the first two options though there is some geographic data to play around with
  
- You will need the standings data.frame created in the first vignette so if it is not in the environment
- either load a saved version or re-run the code
+ You will need the the data.frames created earlier  so if it they are not in your environment  either load a saved version or re-run the code
  
- ### Table
+ ### Tables
  
  I tend to use the `DT` package, but there are alternatives if you have another preference
  
@@ -65,55 +64,210 @@ match_summary_full %>%
 
 ```
 
+This provides a sortable, searchable table
+
+---
+
+### Charts
+
+Let's turn attention to players. Firstly I will create a data.frame
+for the goals and assists for a specified player
+
+For ease of use below, I have created it as a function and
+slipped in an example player_id
 
 
-```{r}
+```{r message = FALSE}
 
+player_game_data <- function(player) {
+# collect goal information for specific player
+df_goals <- players %>% 
+  left_join(player_team) %>% 
+  left_join(player_game) %>% 
+  left_join(goals) %>% 
+  filter(start==TRUE|time_on>0) %>% 
+  select(player_id,last_name,player_game_id,goal_id,team_game_id) %>% 
+  mutate(goal=ifelse(!is.na(goal_id),1,0)) %>% 
+  group_by(player_id,last_name,team_game_id) %>% 
+  summarize(tot_goals=sum(goal)) %>% 
+   filter(player_id==player)
+
+# likewise with assists
+df_assists <- players %>% 
+  left_join(player_team) %>% 
+  left_join(player_game) %>% 
+  left_join(assists) %>% 
+  filter(start==TRUE|time_on>0) %>% 
+  select(player_id,last_name,team_game_id,assist_id,player_game_id) %>% 
+  mutate(assist=ifelse(!is.na(assist_id),1,0)) %>% 
+  group_by(player_id,last_name,team_game_id) %>% 
+  summarize(tot_assists=sum(assist)) %>% 
+   filter(player_id==player)
+
+# combine
+df_all <- df_goals %>% 
+  inner_join(df_assists) %>% 
+# create a game order  
+  left_join(game_team) %>%
+  left_join(game) %>% 
+  arrange(game_date) %>% 
+  mutate(player_game_order=row_number()) %>% 
+   ungroup() %>% #removes unwanted name and PLAYERID
+  select(player_game_order,tot_goals,tot_assists) %>% 
+  # gather into narrow format for plotting
+  gather(category,count,-player_game_order) 
+
+
+}
+
+player_df <-player_game_data("SALAHM")
+head(player_df)
 
 
 
 ```
 
 
+_You can see why you might want to create a derived player table first if you want to do varied detailed analyses particularly where the raw data is only updated annually .saves time and enhances user interactivity experience_
+
+Now just choose your plotting package of choice to display the data. I will use plotly as this allows for ease of infoactivity with feature susch as panning/zooming, hover tooltips etc
+
+```{r message = FALSE}
+library(plotly)
+
+player_df %>%
+  plot_ly(x=~player_game_order, y= ~count) %>%
+  add_bars(color= ~category, colors=c("red","blue")) %>%
+  layout(barmode="stack")
+
+```
+
+Lots of customization is available within the package. 
+
+---
+
+## Interactivity
+
+Lets use the data to create some interactive output
+
+### Shiny
+
+Lets say we use the match_summary_full data to plot a histogram of the goals 
+scored by a team in the Premier League
+
 
 ```{r}
+
+library(shiny)
+library(glue)
+
+shinyApp(
+  
+ 
+  
+  ui = fluidPage(
+    
+    ## calculate an ordered vector of teams to  select from
+     teams <- match_summary_full %>%
+      pull(team) %>%
+      unique() %>% 
+      sort(),
+     
+    selectInput("team", "Select Team:", teams),
+    
+    plotlyOutput("goals_for")
+  ),
+  server = function(input, output) {
+    
+    output$goals_for <- renderPlotly({
+      
+      match_summary_full %>%
+        filter(team == input$team) %>%
+        plot_ly %>%
+        add_histogram(x =  ~ GF) %>%
+        layout(title = glue("Distribution of Goals scored by {input$team}"))
+      
+    })
+  }
+)
 
 
 ```
 
 
+### Crosstalk
 
-```{r}
+This is an alternative  -- dont want to go to server interaction by brushing
 
+#### Filtering
+
+
+```{r warning = FALSE}
+library(crosstalk)
+
+msf  <- SharedData$new(match_summary_full)
+bscols(
+  widths = c(12), # forces components into rows
+filter_select(id="team",label="Select a Team",sharedData=msf, group =  ~team, multiple = FALSE),
+plot_ly(msf, x = ~GF, showlegend = FALSE) %>% 
+    add_histogram(color = ~team, colors = "red")
+)
+```
+
+## Animation
+see plotlyfunctionsextended.RMD which I think I did as blog post
+
+We can use the  standings dataset prepared earlier
+
+
+
+
+Let's look at how arch-rivals, Brighton and Crystal Palace, fared last season
+
+```{r animation}
+
+# function to add cumulative line
+# courtesy Carson Sievert
+
+accumulate_by <- function(dat, var) {
+  var <- lazyeval::f_eval(var, dat)
+  lvls <- plotly:::getLevels(var)
+  dats <- lapply(seq_along(lvls), function(x) {
+    cbind(dat[var %in% lvls[seq(1, x)], ], frame = lvls[[x]])
+  })
+  dplyr::bind_rows(dats)
+}
+
+# select team(s) to display 
+teams <- c("Brighton","Crystal P")
+
+# add function to base data and year of interest
+df <- standings %>% 
+  filter(season=="2017/2018"&team %in% teams) %>% 
+  accumulate_by(~round)
+
+# static plot - scatter plot- uncolored
+base <- df %>% 
+  plot_ly(x=~round,y=~position) %>% 
+layout(
+    xaxis=list(title="Games Played"),
+   yaxis=list(title="League Standing",range=c(20.5,0.5))
+  ) %>% 
+  config(displayModeBar = F,showLink = F) 
+
+
+# add animation options and color-blind safe colors
+ base %>%
+   add_lines(color = ~team, colors="Set2", frame = ~frame, ids = ~team) %>%
+  animation_opts(500, easing = "linear",mode='immediate') %>%
+  animation_button(
+    x = 1, xanchor = "right", y = 0, yanchor = "middle", font = list(color="red"), bgcolor="lightblue"
+  ) %>%
+  animation_slider(
+    currentvalue = list(prefix = "Game ")
+  ) 
 
 ```
 
-
-
-```{r}
-
-```
-
-
-
-```{r}
-
-
-```
-
-
-
-
-```{r}
-
-
-```
-
-
-
-```{r}
-
-
-
-```
-
+Brighton, a promoted club, were expected to be struggle but Crystal Palace spent
+more of the season in danger of relegation. In the end, they both survived relegation by placing higher than 18th
