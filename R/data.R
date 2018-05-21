@@ -6,7 +6,7 @@
 #'
 #'
 #'
-#' @format A data frame with ... rows and 7 variables:
+#' @format A data frame with 4690 rows and 7 variables:
 #' \describe{
 #'   \item{player_id}{Unique Player ID}
 #'   \item{first_name}{First name - may be blank}
@@ -14,7 +14,7 @@
 #'   \item{birth_date}{Birth Date}
 #'   \item{birth_city}{Town or City of birth, if known}
 #'   \item{birth_country}{Country of Birth - not nationality}
-#'   \item{position}{Usual Playing Position G-Goaly, D-Defender, M-Midfielder, F-Forward}
+#'   \item{position}{Usual Playing Position G-Goalkeeper, D-Defender, M-Midfielder, F-Forward}
 #' }
 "players"
 
@@ -25,7 +25,7 @@
 #' team and transfer fees
 #'
 #'
-#' @format A data frame with ... rows and 8 variables:
+#' @format A data frame with 7109 rows and 8 variables:
 #' \describe{
 #'   \item{player_id}{Unique Player ID}
 #'   \item{player_joined}{Date first signed - estimated for academy players}
@@ -44,10 +44,11 @@
 #'
 #' Dataset of Assists for Goals (maximum 2 per goal)
 #'
-#' @format A data frame with ... rows and 2 variables:
+#' @format A data frame with 34050 rows and 3 variables:
 #' \describe{
-#'   \item{player_game_id}{Unique Player Game ID of Assister}
+#'   \item{player_game_id}{Player Game ID of Assister}
 #'   \item{goal_id}{Goal which Assist was provided for}
+#'   \item{assist_id}{Unique id of assist}
 #'
 #' }
 "assists"
@@ -57,7 +58,7 @@
 #' Dataset of Managers
 #'
 #'
-#' @format A data frame with ... rows and 2 variables:
+#' @format A data frame with 224 rows and 2 variables:
 #' \describe{
 #'   \item{manager_id}{Unique Manager ID}
 #'   \item{manager_name}{Manager's name}
@@ -69,7 +70,7 @@
 #' Dataset of Goals including information on time scored, method
 #' place and play
 #'
-#' @format A data frame with ... rows and 6 variables:
+#' @format A data frame with 26784 rows and 6 variables:
 #' \describe{
 #'   \item{player_game_id}{Unique Player Game ID of Scorer}
 #'   \item{time}{time in game. Added time at end of each half is included in 45 and 90 minute figure }
@@ -84,7 +85,7 @@
 #' Dataset of Team games including venue
 #'
 #'
-#' @format A data frame with ... rows and 4 variables:
+#' @format A data frame with 20252 rows and 4 variables:
 #' \describe{
 #'   \item{team_game_id}{Unique Team Game ID}
 #'   \item{game_id}{Unique Game ID}
@@ -100,7 +101,7 @@
 #' Basic information including, date, attendance and referee
 #'
 #'
-#' @format A data frame with ... rows and 4 variables:
+#' @format A data frame with 10127 rows and 4 variables:
 #' \describe{
 #'   \item{game_date}{Date of game}
 #'   \item{crowd}{Announced Attendance}
@@ -115,7 +116,7 @@
 #' Time period of manager's stint with team
 #'
 #'
-#' @format A data frame with ... rows and 5 variables:
+#' @format A data frame with 367 rows and 5 variables:
 #' \describe{
 #'   \item{manager_joined}{Date of Hiring}
 #'   \item{manager_left}{Date of Leaving}
@@ -130,7 +131,7 @@
 #' Individual Game details for player
 #'
 #'
-#' @format A data frame with ... rows and 9 variables:
+#' @format A data frame with 330287 rows and 9 variables:
 #' \describe{
 #'   \item{player_game_id}{Unique Player Game ID}
 #'   \item{team_game_id}{Team Game ID}
