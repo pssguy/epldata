@@ -61,17 +61,26 @@ Although, the data is a basic information, the availability of so many rich pack
  
  * [twitter](https://twitter.com/pssGuy) Typically 2-3 times a week I do some coding on a current topic and post a tweet often with an accompanying table or chart
  
- ![](img/example_pss.PNG)
+ ![](img/example_twitter.PNG)
  
- ---
+---
  
- * [Blog](http://www.mytinyshinys.com) For the 2017/18 season, I produced a weekly post based on the latest round of games. It included a couple of in-depth analyses with code as well as trivia and related externally produced game highlight videos and podcasts
+ * [Blog](http://www.mytinyshinys.com)
+ During the 2017/18 season, I produced a weekly post based on each of the 38 rounds of games. It included a couple of in-depth analyses, with code, as well as trivia and related externally produced game highlight videos and podcasts
  
- * [2017/18 Annual - under development} Based around the above-mentioned blog posts - but with additional  end of season comments for each of the 38 rounds -  I have plans to produce what may well be the world's first interactive Sport Annual
+  ![](img/example_blog.PNG)
+ 
+---
+ 
+ * [2017/18 Annual - under development]() Based around the above-mentioned blog posts - but with additional  end of season comments for each week -  this will be a rare, if not unique,  Interactive Sports Annual
+ 
+  ![](img/example_book.PNG)
+ 
+---
  
  ### Others
  
- Please let me know of any examples of  and I will list them here
+ Please let me know of any interesting usage of the package and I will list them here
  
  ---
  
@@ -80,11 +89,12 @@ Although, the data is a basic information, the availability of so many rich pack
  
  I am not aware of any comparable non-commercial data. I was collecting certain aspects of the data including assists and goal descriptions well before any official adaptation
  
-  The [engsoccerdata package] by authored and maintained by James Curley makes a good complement. It has a far broader scope both temporally and geographically as it provides 
+  The [engsoccerdata package](https://github.com/jalapic/engsoccerdata) authored and maintained by James Curley makes a good complement. It has a far broader scope both temporally and geographically as it provides 
   league match results for many of the English divisions back into the 19th Century as well as the leading leagues of many other nations. it also includes Cup data. 
   However, it does not have the depth of this package with no player or goal information
   
-  An example of a comparable open-source in another sports field is the [lahman] baseball database 
+  Examples of an 
+  open-source dataset in other sports fields include the [lahman baseball database ](https://github.com/cdalzell/Lahman) and the [deuce tennis package](https://github.com/skoval/deuce)
   
  ## Installation
  
@@ -108,12 +118,13 @@ devtools::install_github("pssguy/epldata")
   * If anyone wants to develop commercially please get in touch at agcur@rogers.com
   
 ## Acknowledgements
+
+
   
-    I would like to thank my brother, Stuart, for providing all the goal and assist data for many years
-    Also the [soccerbase web site](www.soccerbase.com) has been a great reference source
+I would like to thank my brother, Stuart Clark, for providing all the goal and assist data for many years
+Also the [soccerbase web site](www.soccerbase.com) has been a great reference source
     
-    In addition developers of all the R packages I have used. pride of place going to the RStudio team
-    and Carson Sievert for the OpenScience plotly package
+In addition, the developers and maintainers of all the R packages I have used; pride of place going to the RStudio team and Carson Sievert for the, ropensci, plotly package
   
   
 
