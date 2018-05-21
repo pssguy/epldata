@@ -1,11 +1,11 @@
 # epldata
-Datasets from English Premier League 1992-2018
+Datasets of the English Premier League 1992-2018
 
-This package is a basically repository of datasets relating to Football (soccer) English Football League from its inception in August 1992 through to the end of the 2017/18 season. The intention is to update it annually shortly after each season ends in May
+This package is a repository of datasets relating to Football (soccer) English Football League from its inception in August 1992 through to the end of the 2017/18 season. The intention is to update it annually shortly after each season ends in May
 
-None of the data is official and there are sure to be a few, opefully trivial, errors. Some data e.g. transfer fees are estimates
+None of the data is official and there are sure to be a few, hopefully trivial, errors. Some data e.g. transfer fees are estimates
 
-There are nine data sets loosely structured around the idea of a relation SQL database of The data has been compiled over more than 25 years so has some bad practices built-in which should not detract from usage unduly
+There are nine data sets loosely structured around the idea of a relational SQL database. So no duplicated data and lots of joins required to make full use of the figures. The data has been compiled over more than 25 years so has some bad practices built-in bur these should not detract from usage unduly
    
     1. assists - ids of one or two players assisting each goal
     2. game - game id, date, attendance, referee
@@ -37,31 +37,46 @@ There are many others - too many to mention - which I have used on a less freque
 
 ## Usage
 
-Although, the data is a basic information, the availability of so many rich packages and the
-quantity of data mean that a wide range of output in terms of both form and content is possible and really depends on the imagination of the developer.
+Although, the data is a basic information, the availability of so many rich packages and the quantity of data mean that a wide range of output in terms of both form and content is possible and really depends on the imagination of the developer.
 
- It can be used as a fun way to introduce students to coding in R and  producing visualizations
- using data related to probably the most popular world wide Sports League
+ It can be used as a fun way to introduce students to coding in R and  producing visualizations  using data related to probably the most popular world wide Sports League
  
- Use for fantasy leagues, team and player analyses, betting are all possibilities
+ Other uses might include
+ 
+ * fantasy leagues
+ * team/player analyses
+ * betting 
+ * personal curiosity
+ * fan trivia
  
  Here are some real-world examples of the output
 
 ### Personal
 
- * [premiersoccerstats.com](www.premiersoccerstas.com)  A shiny website updated after each round of matches allowing a unique wealth of tables and charts to be produced for any player or team
+ * [premiersoccerstats.com](http://www.premiersoccerstats.com)  A shiny website updated after each round of matches allowing a unique wealth of tables and charts to be produced for any player or team
  
- * [twitter]() Typically 2-3 times a week I do some coding on a current topic and post a tweet often with an accompanying table or chart
+ ![](/img/example_pss.PNG)
  
- * [Blog](www.mytinyshinys.com) For the 2017/18 season, I produced a weekly post based on the latest round of games. It included a couple of in-depth analyses with code as well as trivia and related externally produced game highlight videos and podcasts
+ ---
  
- * [2017/18 Annual - in development} Based around the above-mentioned blog posts - but with additional  end of season comments for each of the 38 rounds -  I have plans to produce what may well be the world's first interactive Sport Annual
+ * [twitter](https://twitter.com/pssGuy) Typically 2-3 times a week I do some coding on a current topic and post a tweet often with an accompanying table or chart
+ 
+ ![](img/example_pss.PNG)
+ 
+ ---
+ 
+ * [Blog](http://www.mytinyshinys.com) For the 2017/18 season, I produced a weekly post based on the latest round of games. It included a couple of in-depth analyses with code as well as trivia and related externally produced game highlight videos and podcasts
+ 
+ * [2017/18 Annual - under development} Based around the above-mentioned blog posts - but with additional  end of season comments for each of the 38 rounds -  I have plans to produce what may well be the world's first interactive Sport Annual
  
  ### Others
  
  Please let me know of any examples of  and I will list them here
  
- ## Comaprable data
+ ---
+ 
+ 
+ ## Comparable data
  
  I am not aware of any comparable non-commercial data. I was collecting certain aspects of the data including assists and goal descriptions well before any official adaptation
  
