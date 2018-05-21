@@ -7,16 +7,16 @@ None of the data is official and there are sure to be a few, hopefully trivial, 
 
 There are nine data sets loosely structured around the idea of a relational SQL database. So no duplicated data and lots of joins required to make full use of the figures. The data has been compiled over more than 25 years so has some bad practices built-in bur these should not detract from usage unduly
    
-    1. assists - ids of one or two players assisting each goal
-    2. game - game id, date, attendance, referee
-    3. game_team - team name,venue for each game id
-    4. goals - player_game id, details of method, place and play 
-    5. manager_team - joining and leaving dates of managers at each team
-    6. managers - manager name and id
-    7. player_game - player_team and team_game ids, whether starter, time on and off, cautions,
+  1. assists - ids of one or two players assisting each goal
+  2. game - game id, date, attendance, referee
+  3. game_team - team name,venue for each game id
+  4. goals - player_game id, details of method, place and play 
+  5. manager_team - joining and leaving dates of managers at each team
+  6. managers - manager name and id
+  7. player_game - player_team and team_game ids, whether starter, time on and off, cautions,
        own-goals and missed penalties
-    8. player_team - date of joining and leaving team, transfer fees involved, whether on-loan
-    9. players - first and last name, place and date of birth, field position
+  8. player_team - date of joining and leaving team, transfer fees involved, whether on-loan
+  9. players - first and last name, place and date of birth, field position
 
 A lot of joins between tables are necessary and you may find it useful to create derived data.frames if you plan to use the data extensively. Examples are covered in the Vignette
 
@@ -61,20 +61,20 @@ Although, the data is a basic information, the availability of so many rich pack
  
  * [twitter](https://twitter.com/pssGuy) Typically 2-3 times a week I do some coding on a current topic and post a tweet often with an accompanying table or chart
  
- ![](img/example_twitter.PNG)
+ ![](img/example_tweet.PNG)
  
 ---
  
- * [Blog](http://www.mytinyshinys.com)
+ * [Blog]    
  During the 2017/18 season, I produced a weekly post based on each of the 38 rounds of games. It included a couple of in-depth analyses, with code, as well as trivia and related externally produced game highlight videos and podcasts
  
-  ![](img/example_blog.PNG)
+  ![](img/example_blog.png)
  
 ---
  
  * [2017/18 Annual - under development]() Based around the above-mentioned blog posts - but with additional  end of season comments for each week -  this will be a rare, if not unique,  Interactive Sports Annual
  
-  ![](img/example_book.PNG)
+  ![](img/example_book.png)
  
 ---
  
