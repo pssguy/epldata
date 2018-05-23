@@ -17,6 +17,23 @@ There are nine data sets loosely structured around the idea of a relational SQL 
        own-goals and missed penalties
   8. player_team - date of joining and leaving team, transfer fees involved, whether on-loan
   9. players - first and last name, place and date of birth, field position
+  
+## Installation
+ 
+ Currently the package is not on CRAN
+
+```
+# Install from GitHub
+devtools::install_github("pssguy/epldata")
+
+# View datasets and functions
+ help(package="epldata")
+ 
+# Load dataset
+ library(epldata)
+ data(players)
+
+```  
 
 A lot of joins between tables are necessary and you may find it useful to create derived data.frames if you plan to use the data extensively. Examples are covered in the Vignette
 
@@ -37,7 +54,7 @@ There are many others - too many to mention - which I have used on a less freque
 
 ## Usage
 
-Although, the data is a basic information, the availability of so many rich packages and the quantity of data mean that a wide range of output in terms of both form and content is possible and really depends on the imagination of the developer.
+Although, the data is a basic information, the availability of so many rich packages and the quantity of data mean that a wide range of output in terms of both form and content is possible and really depends on the imagination of the developer. I have included some examples in a [vignette](https://github.com/pssguy/epldata/blob/master/vignettes/basics.Rmd) but there are far more output examples, with code, based on derived tables on the [mytinyshinys blog](http://mytinyshinys.com/categories/eplweekly/)
 
  It can be used as a fun way to introduce students to coding in R and  producing visualizations  using data related to probably the most popular world wide Sports League
  
@@ -65,7 +82,7 @@ Although, the data is a basic information, the availability of so many rich pack
  
 ---
  
- * [Blog]    
+ * [Blog](http://www.mytinyshinys.com)    
  During the 2017/18 season, I produced a weekly post based on each of the 38 rounds of games. It included a couple of in-depth analyses, with code, as well as trivia and related externally produced game highlight videos and podcasts
  
   ![](img/example_blog.png)
@@ -78,14 +95,14 @@ Although, the data is a basic information, the availability of so many rich pack
  
 ---
  
- ### Others
+### Others
  
  Please let me know of any interesting usage of the package and I will list them here
  
  ---
  
  
- ## Comparable data
+## Comparable data
  
  I am not aware of any comparable non-commercial data. I was collecting certain aspects of the data including assists and goal descriptions well before any official adaptation
  
@@ -93,27 +110,14 @@ Although, the data is a basic information, the availability of so many rich pack
   league match results for many of the English divisions back into the 19th Century as well as the leading leagues of many other nations. it also includes Cup data. 
   However, it does not have the depth of this package with no player or goal information
   
-  Examples of an 
-  open-source dataset in other sports fields include the [lahman baseball database ](https://github.com/cdalzell/Lahman) and the [deuce tennis package](https://github.com/skoval/deuce)
-  
- ## Installation
- 
- Currently the package is not on CRAN
+  Examples of open-source datasets in other sports fields include the [lahman baseball database ](https://github.com/cdalzell/Lahman) and the [deuce tennis package](https://github.com/skoval/deuce)
 
-```
-# Install from GitHub
-devtools::install_github("pssguy/epldata")
 
-# View datasets
- data(package="epldata")
+## Future development
 
-```
-
-### Future development
-
-  * If you find any factual errors e.g gaol designations please raise in issues
+  * If you find any factual errors e.g goal designations please raise in issues
   * I have no current plans to extend the type of data covered. However, anyone collecting           complementary information  e.g. chances created and wishes to incorporate them in this package please get in touch
-  * It is possible I may add some functions but that is not the main purpose. The vignette already provides som e code and may be added to over time
+  * It is possible I may add some functions but that is not the main purpose. The [vignette] (https://github.com/pssguy/epldata/blob/master/vignettes/basics.Rmd) already provides some code and may be added to over time
   * Although the raw data will be collated every week the plan is to update this package after every season
   * If anyone wants to develop commercially please get in touch at agcur@rogers.com
   
