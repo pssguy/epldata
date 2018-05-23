@@ -1,5 +1,5 @@
 ---
-title: "epldata - the basics"
+title: "epldata Vignette"
 #runtime: shiny
 #author: "Andrew Clark"
 #date: "`r Sys.Date()`"
@@ -366,7 +366,7 @@ Lets use the data to create some interactive output
 
 Lets say we use the match_summary_full data to plot a histogram of the goals scored by a team in the Premier League
 
-
+_NB currently this does not run in vignetter but should as an R Script_
 ```{r eval = FALSE }
 
 library(shiny)
@@ -408,9 +408,11 @@ shinyApp(
 
 ### Crosstalk
 
-This is an alternative  -- dont want to go to server interaction by brushing
+This is an alternative  method which does not require access to a server and allows for htmlwidgets to interact with each other
 
 #### Filtering
+
+Here is the equivalent selection and chart as the shiny example above would produce
 
 
 ```{r, warning = FALSE}
