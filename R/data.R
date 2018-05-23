@@ -96,7 +96,7 @@
 "game_team"
 
 
-#' Game
+#' Games
 #'
 #' Basic information including, date, attendance and referee
 #'
@@ -108,7 +108,7 @@
 #'   \item{referee_name}{Initial and Last name}
 #'   \item{game_id}{Unique Game ID}
 #' }
-"game"
+"games"
 
 
 #' Manager by Team
