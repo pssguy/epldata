@@ -4,7 +4,7 @@
 \name{game_team}
 \alias{game_team}
 \title{Games by Team}
-\format{A data frame with ... rows and 4 variables:
+\format{A data frame with 20252 rows and 4 variables:
 \describe{
   \item{team_game_id}{Unique Team Game ID}
   \item{game_id}{Unique Game ID}

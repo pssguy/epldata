@@ -4,7 +4,7 @@
 \name{goals}
 \alias{goals}
 \title{Goals}
-\format{A data frame with ... rows and 6 variables:
+\format{A data frame with 26784 rows and 6 variables:
 \describe{
   \item{player_game_id}{Unique Player Game ID of Scorer}
   \item{time}{time in game. Added time at end of each half is included in 45 and 90 minute figure }

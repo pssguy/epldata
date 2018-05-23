@@ -4,7 +4,7 @@
 \name{player_team}
 \alias{player_team}
 \title{Player by Team}
-\format{A data frame with ... rows and 8 variables:
+\format{A data frame with 7109 rows and 8 variables:
 \describe{
   \item{player_id}{Unique Player ID}
   \item{player_joined}{Date first signed - estimated for academy players}

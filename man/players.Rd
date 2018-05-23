@@ -4,7 +4,7 @@
 \name{players}
 \alias{players}
 \title{Premier League players 1992-2018}
-\format{A data frame with ... rows and 7 variables:
+\format{A data frame with 4690 rows and 7 variables:
 \describe{
   \item{player_id}{Unique Player ID}
   \item{first_name}{First name - may be blank}
@@ -12,7 +12,7 @@
   \item{birth_date}{Birth Date}
   \item{birth_city}{Town or City of birth, if known}
   \item{birth_country}{Country of Birth - not nationality}
-  \item{position}{Usual Playing Position G-Goaly, D-Defender, M-Midfielder, F-Forward}
+  \item{position}{Usual Playing Position G-Goalkeeper, D-Defender, M-Midfielder, F-Forward}
 }}
 \usage{
 players

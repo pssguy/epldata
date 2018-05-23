@@ -4,7 +4,7 @@
 \name{managers}
 \alias{managers}
 \title{Managers}
-\format{A data frame with ... rows and 2 variables:
+\format{A data frame with 224 rows and 2 variables:
 \describe{
   \item{manager_id}{Unique Manager ID}
   \item{manager_name}{Manager's name}

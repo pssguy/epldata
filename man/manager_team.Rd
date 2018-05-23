@@ -4,7 +4,7 @@
 \name{manager_team}
 \alias{manager_team}
 \title{Manager by Team}
-\format{A data frame with ... rows and 5 variables:
+\format{A data frame with 367 rows and 5 variables:
 \describe{
   \item{manager_joined}{Date of Hiring}
   \item{manager_left}{Date of Leaving}

@@ -4,10 +4,11 @@
 \name{assists}
 \alias{assists}
 \title{Assists}
-\format{A data frame with ... rows and 2 variables:
+\format{A data frame with 34050 rows and 3 variables:
 \describe{
-  \item{player_game_id}{Unique Player Game ID of Assister}
+  \item{player_game_id}{Player Game ID of Assister}
   \item{goal_id}{Goal which Assist was provided for}
+  \item{assist_id}{Unique id of assist}
 
 }}
 \usage{
