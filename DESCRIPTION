@@ -1,8 +1,10 @@
 Package: epldata
 Type: Package
 Title: Datasets from English Premier League 1992-2018
-Version: 0.1.0
-Author: Andrew Clark
+Version: 0.1.2018
+Authors@R: c(
+    person(c("Andrew", "G"), "Clark", role = c("aut", "cre"), email = "agcur@rogers.com")
+    )
 Maintainer: Andrew Clark <agcur@rogers.com>
 Description: Datasets of all players, teams, managers, goals and assists
              of the English Premier League from August 1992 to May 2018
