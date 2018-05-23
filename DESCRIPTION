@@ -14,11 +14,11 @@ Imports:
     magrittr
 RoxygenNote: 6.0.1
 Suggests: 
-    testthat,
-    knitr,
-    rmarkdown,
-    tidyverse,
     DT,
+    knitr,
+    plotly,
+    rmarkdown,
     shiny,
-    plotly
+    testthat,
+    tidyverse
 VignetteBuilder: knitr
