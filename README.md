@@ -72,7 +72,7 @@ Although, the data is a basic information, the availability of so many rich pack
 
  * [premiersoccerstats.com](http://www.premiersoccerstats.com)  A shiny website updated after each round of matches allowing a unique wealth of tables and charts to be produced for any player or team
  
- ![](man/figures/example_pss.PNG)
+ ![](img/example_pss.PNG)
  
  ---
  
