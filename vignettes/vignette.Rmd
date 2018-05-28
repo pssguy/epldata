@@ -5,7 +5,7 @@ title: "epldata Vignette"
 #date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{vignette}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -66,6 +66,7 @@ players %>%
   tally() %>% 
   mutate(pc=round(100*n/sum(n),2)) %>% 
   arrange(desc(pc))
+
 
 
 ```
@@ -344,12 +345,12 @@ _You can see why you might want to create a derived player table first if you wa
 
 Now just choose your plotting package of choice to display the data. I will use `plotly` as this allows for ease of info-activity including feature such as panning/zooming, hover, tooltips etc.
 
-```{r message = FALSE}
+```{r, message = FALSE}
 library(plotly)
 
 player_df %>%
-  plot_ly(x=~player_game_order, y= ~count) %>%
-  add_bars(color= ~category, colors=c("red","blue"),width = 600) %>%
+  plot_ly(x=~player_game_order, y= ~count,width = 600) %>%
+  add_bars(color= ~category, colors=c("red","blue")) %>%
   layout(barmode="stack")
 
 ```
@@ -366,38 +367,41 @@ Lets use the data to create some interactive output
 
 Lets say we use the match_summary_full data to plot a histogram of the goals scored by a team in the Premier League
 
-_NB currently this does not run in vignetter but should as an R Script_
-```{r eval = FALSE }
+
+I have set the eval = FALSE as appshot of Shiny app objects is not yet supported. but the code will run and give a similar output to that of the Crosstalk example below
+
+
+```{r, eval = FALSE}
 
 library(shiny)
 library(glue)
 
 shinyApp(
-  
- 
-  
+
+
+
   ui = fluidPage(
-    
+
     ## calculate an ordered vector of teams to  select from
      teams <- match_summary_full %>%
       pull(team) %>%
-      unique() %>% 
+      unique() %>%
       sort(),
-     
+
     selectInput("team", "Select Team:", teams),
-    
+
     plotlyOutput("goals_for")
   ),
   server = function(input, output) {
-    
+
     output$goals_for <- renderPlotly({
-      
+
       match_summary_full %>%
         filter(team == input$team) %>%
         plot_ly %>%
         add_histogram(x =  ~ GF) %>%
         layout(title = glue("Distribution of Goals scored by {input$team}"))
-      
+
     })
   }
 )
@@ -412,7 +416,7 @@ This is an alternative  method which does not require access to a server and all
 
 #### Filtering
 
-Here is the equivalent selection and chart as the shiny example above would produce
+Here is the equivalent input selection(minus a default) and chart as the shiny example above produces
 
 
 ```{r, warning = FALSE}
@@ -480,4 +484,3 @@ layout(
 
 Brighton, a promoted club, were expected to be struggle but Crystal Palace spent
 more of the season in the drop zone. In the end, they both survived relegation by placing higher than 18th
-
